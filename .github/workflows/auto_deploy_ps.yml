@@ -56,10 +56,10 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.0
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_PRODUCTION }}
       - name: Connect to Server and Execute Commands
         run: |
-          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SERVER_HOST }} << 'ENDSSH'
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT_PRODUCTION }} ${{ secrets.SSH_USERNAME_PRODUCTION }}@${{ secrets.SERVER_HOST_PRODUCTION }} << 'ENDSSH'
           cd /var/www/clubcrm__back.ru
           git pull origin main
           composer install
