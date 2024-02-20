@@ -8,7 +8,7 @@ Route::get('/getUserByToken', function () {
     return json_encode(['message' => 'Hello World!']);
 });
 
-Route::get('/test', function () {
+Route::get('/test1', function () {
     return json_encode(['message' => 'test!']);
 });
 
