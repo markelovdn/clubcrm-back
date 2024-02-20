@@ -1,4 +1,4 @@
-name: Laravel
+name: auto_deploy_ps
 
 on:
   push:
