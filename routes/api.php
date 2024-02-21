@@ -2,15 +2,16 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
 
 
-Route::get('/getUserByToken', function () {
+Route::get('/test', function () {
     return json_encode(['message' => 'Hello World!']);
 });
 
-Route::get('/test1', function () {
-    return json_encode(['message' => 'test!']);
-});
+Route::get('/authFromVK', [AuthController::class, 'authFromVK']);
+Route::get('/handleVKCallback', [AuthController::class, 'handleVKCallback']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
