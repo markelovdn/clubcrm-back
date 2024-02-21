@@ -10,7 +10,9 @@ Route::get('/test', function () {
 });
 
 Route::get('/authFromVK', [AuthController::class, 'authFromVK']);
-Route::get('/handleVKCallback', [AuthController::class, 'handleVKCallback']);
+Route::get('/handleVKCallback', function (Request $request) {
+    return $request->all();
+});
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
