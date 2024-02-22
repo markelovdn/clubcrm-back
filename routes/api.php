@@ -11,12 +11,12 @@ Route::get('/test', function () {
 
 Route::get('/authFromVK', [AuthController::class, 'authFromVK']);
 Route::get('/handleVKCallback', function (Request $request) {
-    if (!empty($request->query('code'))) {
+    if (!empty($_GET['code'])) {
         $params = array(
             'client_id'     => '51858715',
             'client_secret' => 'N5VU9q4KhRPwosHYVeEw',
             'redirect_uri'  => 'https://legion34.clubcrm.ru/api/handleVKCallback',
-            'code'          => $request->query('code'),
+            'code'          => $_GET['code'],
             'scope'         => 'email' // Запрашиваем доступ к email
         );
         // Получение access_token
