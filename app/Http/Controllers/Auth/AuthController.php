@@ -21,7 +21,7 @@ class AuthController extends Controller
             'response_type' => 'code',
         ];
 
-        return redirect('https://oauth.vk.com/authorize?' . http_build_query($params));
+        return redirect('http://oauth.vk.com/authorize?' . http_build_query($params));
     }
 
     public function handleVKCallback(Request $request)
