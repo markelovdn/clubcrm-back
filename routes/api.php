@@ -21,7 +21,7 @@ Route::get('/handleVKCallback', function (Request $request) {
 
         // Получение access_token
         $data = file_get_contents('https://oauth.vk.com/access_token?' . urldecode(http_build_query($params)));
-        $data = json_decode($data, true);
+        // $data = json_decode($data, true);
         if (!empty($data['access_token'])) {
 
             // Получим данные пользователя
