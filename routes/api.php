@@ -28,10 +28,10 @@ Route::get('/handleVKCallback', function (Request $request) {
                 'v'            => '5.199',
                 'uids'         => $data['user_id'],
                 'access_token' => $data['access_token'],
-                'fields'       => 'photo_big,email', // Запрашиваем email
+                'fields'       => 'photo_big', // Запрашиваем email
             );
             $info = file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($params)));
-            return $info;
+            return json_decode($info);
         }
     }
 });
