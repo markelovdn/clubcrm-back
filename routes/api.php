@@ -35,7 +35,7 @@ Route::get('/handleVKCallback', function (Request $request) {
             );
 
             $info = file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($params)));
-            return json_decode($email, true);
+            return json_decode($data, true);
         }
     }
 });
