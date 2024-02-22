@@ -16,24 +16,22 @@ Route::get('/handleVKCallback', function (Request $request) {
             'client_id'     => '51858715',
             'client_secret' => 'N5VU9q4KhRPwosHYVeEw',
             'redirect_uri'  => 'https://legion34.clubcrm.ru/api/handleVKCallback',
-            'code'          => $_GET['code']
+            'code'          => $_GET['code'],
+            'scope'         => 'email' // Запрашиваем доступ к email
         );
-
         // Получение access_token
         $data = file_get_contents('https://oauth.vk.com/access_token?' . urldecode(http_build_query($params)));
         // $data = json_decode($data, true);
         if (!empty($data['access_token'])) {
-
             // Получим данные пользователя
             $params = array(
                 'v'            => '5.199',
                 'uids'         => $data['user_id'],
                 'access_token' => $data['access_token'],
-                'fields'       => 'photo_big',
+                'fields'       => 'photo_big,email', // Запрашиваем email
             );
-
             $info = file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($params)));
-            return json_decode($data, true);
+            return json_decode($info, true);
         }
     }
 });
