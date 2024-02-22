@@ -26,7 +26,7 @@ Route::get('/handleVKCallback', function (Request $request) {
 
             // Получим данные пользователя
             $params = array(
-                'v'            => '5.52',
+                'v'            => '5.199',
                 'uids'         => $data['user_id'],
                 'access_token' => $data['access_token'],
                 'fields'       => 'photo_big',
