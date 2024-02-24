@@ -17,6 +17,7 @@ Route::get('/handleVKCallback', function (Request $request) {
             'client_secret' => 'N5VU9q4KhRPwosHYVeEw',
             'redirect_uri'  => 'https://legion34.clubcrm.ru/api/handleVKCallback',
             'code'          => $_GET['code'],
+            'scope' => 'email'
         );
         // Получение access_token
         $data = file_get_contents('https://oauth.vk.com/access_token?' . urldecode(http_build_query($params)));
@@ -28,10 +29,10 @@ Route::get('/handleVKCallback', function (Request $request) {
                 'uids'         => $data['user_id'],
                 'access_token' => $data['access_token'],
             );
-            $info = file_get_contents('https://api.vk.com/method/account.getProfileInfo?' . urldecode(http_build_query($params)));
+            // $info = file_get_contents('https://api.vk.com/method/account.getProfileInfo?' . urldecode(http_build_query($params)));
 
-            $info = file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($params)));
-            return json_decode($info, true);
+            // $info = file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($params)));
+            return $data;
         }
     }
 });
