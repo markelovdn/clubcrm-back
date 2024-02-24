@@ -29,6 +29,8 @@ Route::get('/handleVKCallback', function (Request $request) {
                 'access_token' => $data['access_token'],
             );
             $info = file_get_contents('https://api.vk.com/method/account.getProfileInfo?' . urldecode(http_build_query($params)));
+
+            $info = file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($params)));
             return json_decode($info, true);
         }
     }
