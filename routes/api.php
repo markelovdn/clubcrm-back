@@ -32,10 +32,10 @@ Route::get('/handleVKCallback', function (Request $request) {
                 'uids'         => $data['user_id'],
                 'access_token' => $data['access_token'],
             );
-            // $info = file_get_contents('https://api.vk.com/method/account.getProfileInfo?' . urldecode(http_build_query($params)));
 
-            // $info = file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($params)));
-            return $data['email'];
+            // return $info = file_get_contents('https://api.vk.com/method/account.getProfileInfo?' . urldecode(http_build_query($params)));
+
+            return $info = file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($params)));
         }
     }
 });
