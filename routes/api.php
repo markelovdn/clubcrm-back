@@ -24,6 +24,8 @@ Route::get('/handleVKCallback', function (Request $request) {
         $data = file_get_contents('https://oauth.vk.com/access_token?' . urldecode(http_build_query($params)));
         $data = json_decode($data, true);
         if (!empty($data['access_token'])) {
+
+
             // Получим данные пользователя
             $params = array(
                 'v'            => '5.199',
@@ -33,7 +35,7 @@ Route::get('/handleVKCallback', function (Request $request) {
             // $info = file_get_contents('https://api.vk.com/method/account.getProfileInfo?' . urldecode(http_build_query($params)));
 
             // $info = file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($params)));
-            return $data;
+            return $data['email'];
         }
     }
 });
