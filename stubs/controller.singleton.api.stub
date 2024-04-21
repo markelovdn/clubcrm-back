@@ -12,9 +12,6 @@ class {{ class }} extends Controller
         abort(404);
     }
 
-    /**
-     * Display the resource.
-     */
     public function show()
     {
         //
