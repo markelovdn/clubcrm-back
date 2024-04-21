@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class {{ class }} extends Controller
 {
-    /**
-     * Store the newly created resource in storage.
-     */
     public function store(Request $request): never
     {
         abort(404);
