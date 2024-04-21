@@ -9,17 +9,11 @@ use {{ namespacedParentModel }};
 
 class {{ class }} extends Controller
 {
-    /**
-     * Show the form for creating the new resource.
-     */
     public function create({{ parentModel }} ${{ parentModelVariable }}): never
     {
         abort(404);
     }
 
-    /**
-     * Store the newly created resource in storage.
-     */
     public function store(Request $request, {{ parentModel }} ${{ parentModelVariable }}): never
     {
         abort(404);
