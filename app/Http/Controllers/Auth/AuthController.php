@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
+use App\Services\AuthService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
 
-    public function register(RegisterUserRequest $request)
+    public function register(RegisterUserRequest $request, AuthService $authService)
     {
         $a = $request->all();
-        return 123;
+        //TODO:опсиать метод сервиса
+        return response()->json([
+            'message' => __('apiResponseMessage.auth.register')
+        ]);
     }
     public function authFromVk()
     {

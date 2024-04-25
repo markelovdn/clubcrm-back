@@ -2,8 +2,13 @@
 
 namespace App\Exceptions;
 
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -13,10 +18,46 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
+    private function apiErrorResponse($message, $code)
+    {
+        return response()->json(['error' => $message, 'code' => $code], $code);
+    }
+
+    private function logError(Exception $e)
+    {
+        Log::error($e->getMessage(), ['exception' => $e]);
+    }
+
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+
+        $this->renderable(function (NotFoundHttpException $e) {
+            $this->logError($e);
+            return $this->apiErrorResponse('Resource Not Found', 404);
+        });
+
+        $this->renderable(function (ModelNotFoundException $e, $request) {
+            $this->logError($e);
+            if ($request->is('api/*')) {
+                return $this->apiErrorResponse('Model Not Found', 404);
+            }
+        });
+
+        $this->renderable(function (ValidationException $e) {
+            $this->logError($e);
+            return response()->json(['errors' => $e->errors()], 422);
+        });
+
+        $this->renderable(function (QueryException $e, $request) {
+            $this->logError($e);
+            if ($e->getCode() === '23000') {
+                return (new ForeignKeyConstraintViolationException())->render($request);
+            }
+        });
+
+        $this->renderable(function (Exception $e, $request) {
+            $this->logError($e);
+            return $this->apiErrorResponse('Что-то пошло не так, мы уже работаем над этим', 500);
         });
     }
 }

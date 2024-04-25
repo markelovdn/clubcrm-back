@@ -8,15 +8,14 @@ use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    public function test_example(): void
+    public function testBaseRegistration(): void
     {
-        $response = $this->get('api/register', [
+        $response = $this->post('api/register', [
             'email' => 'test@test.ru',
             'password' => 'test',
             'password_confirmation' => 'test',
             'phone' => 'test',
         ]);
-        $response->dd();
 
         $response->assertStatus(200);
     }
