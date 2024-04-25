@@ -6,8 +6,10 @@ use App\Http\Controllers\Auth\AuthController;
 
 
 Route::get('/test', function () {
-    return json_encode(['message' => 'Hello World!']);
+    return phpinfo();
 });
+
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/authFromVK', [AuthController::class, 'authFromVK']);
 Route::get('/handleVKCallback', function (Request $request) {
