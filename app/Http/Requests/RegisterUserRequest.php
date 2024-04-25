@@ -18,6 +18,7 @@ class RegisterUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'unique:users'],
             'phone' => ['required', 'string', 'unique:users'],
             'password' => ['required', 'string', 'confirmed'],
+            'subDomain' => ['required', 'string'],
         ];
     }
 }

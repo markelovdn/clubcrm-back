@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
+use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
 use App\Services\AuthService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
 
-    public function register(RegisterUserRequest $request, AuthService $authService)
+    public function register(RegisterUserRequest $request, UserService $userService)
     {
-        $a = $request->all();
+        $userService->createUser($request->validated());
         //TODO:опсиать метод сервиса
         return response()->json([
             'message' => __('apiResponseMessage.auth.register')
