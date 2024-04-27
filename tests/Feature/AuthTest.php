@@ -15,7 +15,10 @@ class AuthTest extends TestCase
             'password' => 'test',
             'password_confirmation' => 'test',
             'phone' => 'test',
+            'subDomain' => 'test',
         ]);
+
+        $response->dd();
 
         $response->assertStatus(200);
     }

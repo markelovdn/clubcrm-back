@@ -2,24 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthController extends Controller
 {
+    protected $authService;
 
-    public function register(RegisterUserRequest $request, UserService $userService)
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
+    public function register(RegisterUserRequest $request, UserService $userService): JsonResponse
     {
         $userService->createUser($request->validated());
-        //TODO:опсиать метод сервиса
         return response()->json([
             'message' => __('apiResponseMessage.auth.register')
         ]);
     }
+
+    public function login(LoginRequest $request): JsonResource
+    {
+        $loginResponse = $this->authService->login($request->validated());
+
+        return new UserResource($loginResponse['user'], $loginResponse['token']);
+    }
+
     public function authFromVk()
     {
         //     $client_id = 51858715; // ID приложения

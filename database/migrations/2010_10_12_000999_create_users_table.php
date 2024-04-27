@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('google_id')->unique()->nullable();
             $table->string('yandex_id')->unique()->nullable();
             $table->string('password')->nullable($value = true);
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });
