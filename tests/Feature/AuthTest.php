@@ -18,8 +18,6 @@ class AuthTest extends TestCase
             'subDomain' => 'test',
         ]);
 
-        $response->dd();
-
         $response->assertStatus(200);
     }
 }
