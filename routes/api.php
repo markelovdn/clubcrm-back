@@ -10,8 +10,8 @@ Route::get('/test', function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/authFromVK', [AuthController::class, 'authFromVK']);
-Route::get('/handleVKCallback', [AuthController::class, 'handleVKCallback']);
+Route::get('/authFromVk', [AuthController::class, 'authFromVk']);
+Route::get('/vkLogin', [AuthController::class, 'vkLogin']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
