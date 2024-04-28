@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
 Route::get('/test', function () {
-    return phpinfo();
+    return "Hellow World";
 });
 
 Route::post('/register', [AuthController::class, 'register']);

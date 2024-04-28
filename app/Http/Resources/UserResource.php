@@ -7,14 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
-    protected $token;
-
-    public function __construct($resource, $token)
-    {
-        parent::__construct($resource);
-        $this->token = $token;
-    }
-
     public function toArray($request)
     {
         return [
@@ -24,7 +16,6 @@ class UserResource extends JsonResource
             'middleName' => $this->middlename,
             'email' => $this->email,
             'phone' => $this->phone,
-            'token' => $this->token,
         ];
     }
 }

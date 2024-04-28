@@ -29,11 +29,11 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(LoginRequest $request): JsonResource
+    public function login(LoginRequest $request): string
     {
-        $loginResponse = $this->authService->login($request->validated());
+        $token = $this->authService->login($request->validated());
 
-        return new UserResource($loginResponse['user'], $loginResponse['token']);
+        return response()->json(['token' => $token]);
     }
 
     public function authFromVk()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->userService->userRepository->getAll();
-        return $users;
+        return UserResource::collection($users);
     }
 
     public function store(Request $request)
@@ -25,9 +26,10 @@ class UserController extends Controller
         //
     }
 
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        $user = $this->userService->userRepository->getOne($id);
+        return new UserResource($user);
     }
 
     public function update(Request $request, string $id)

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthService
 {
@@ -17,15 +18,14 @@ class AuthService
     public function login($credentials)
     {
         if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Login failed'], 401);
+            return response()->json([
+                'message' => __('apiResponseMessage.auth.loginFail'),
+            ]);
         }
 
-        $user = Auth::user();
+        $user = User::where('phone', $credentials['phone'])->first();
         $token = $user->createToken('api')->plainTextToken;
 
-        return [
-            'user' => $user,
-            'token' => $token
-        ];
+        return $token;
     }
 }
