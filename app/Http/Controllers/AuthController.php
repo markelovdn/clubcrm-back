@@ -47,7 +47,7 @@ class AuthController extends Controller
         $params = [
             'client_id' => '51858715',
             'display' => 'mobile',
-            'redirect_uri' => 'https://legion34.clubcrm.ru/api/handleVKCallback',
+            'redirect_uri' => 'https://clubcrm.ru/api/handleVKCallback',
             'response_type' => 'code',
         ];
 
