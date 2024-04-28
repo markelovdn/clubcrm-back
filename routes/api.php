@@ -2,14 +2,25 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthController;
-
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 Route::get('/test', function () {
-    return phpinfo();
+    return "Hellow World";
 });
 
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::middleware('role:root')->group(function () {
+        Route::apiResource('/users', UserController::class);
+    });
+
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
 
 Route::get('/authFromVK', [AuthController::class, 'authFromVK']);
 Route::get('/handleVKCallback', function (Request $request) {
