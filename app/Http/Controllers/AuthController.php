@@ -56,28 +56,32 @@ class AuthController extends Controller
 
     public function handleVKCallback(Request $request)
     {
-        $code = $request->get('code');
+        if (!empty($_GET['code'])) {
+            $params = array(
+                'client_id'     => '51858715',
+                'client_secret' => 'N5VU9q4KhRPwosHYVeEw',
+                'redirect_uri'  => 'https://clubcrm.ru/api/handleVKCallback',
+                'code'          => $_GET['code'],
+                'scope' => 'email',
+                'email'         => 1
+            );
+            // Получение access_token
+            $data = file_get_contents('https://oauth.vk.com/access_token?' . urldecode(http_build_query($params)));
+            $data = json_decode($data, true);
+            if (!empty($data['access_token'])) {
 
-        // $params = [
-        //     'client_id' => '51858715',
-        //     'client_secret' => 'a077f5dfa077f5dfa077f5df89a360b8c4aa077a077f5dfc5a754a22f2386f56bd58c64',
-        //     'redirect_uri' => 'https://legion34.clubcrm.ru/api/handleVKCallback',
-        //     'code' => $code,
-        // ];
 
-        // // Обмен кода на токен
-        // $tokenRequest = file_get_contents('https://oauth.vk.com/access_token?' . http_build_query($params));
-        // $tokenData = json_decode($tokenRequest, true);
+                // Получим данные пользователя
+                $params = array(
+                    'v'            => '5.199',
+                    'uids'         => $data['user_id'],
+                    'access_token' => $data['access_token'],
+                );
 
-        // $token = $tokenData['access_token'];
-        // $vkUserId = $tokenData['user_id'];
+                // return $info = file_get_contents('https://api.vk.com/method/account.getProfileInfo?' . urldecode(http_build_query($params)));
 
-        // // Получение информации о пользователе с использованием токена
-        // $userDataRequest = file_get_contents('https://api.vk.com/method/users.get?user_id=' . $vkUserId . '&access_token=' . $token . '&v=5.131');
-        // $userData = json_decode($userDataRequest, true);
-
-        return $code;
-
-        // Логика по созданию/аутентификации пользователя в Laravel
+                return $info = file_get_contents('https://api.vk.com/method/users.get?' . urldecode(http_build_query($params)));
+            }
+        }
     }
 }
