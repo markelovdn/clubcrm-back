@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -53,6 +54,12 @@ class Handler extends ExceptionHandler
             if ($e->getCode() === '23000') {
                 return (new ForeignKeyConstraintViolationException())->render($request);
             }
+        });
+
+
+        $this->renderable(function (AuthenticationException $e) {
+            $this->logError($e);
+            return $this->apiErrorResponse(__('apiResponseMessage.auth.loginFail'), 401);
         });
 
         $this->renderable(function (Exception $e, $request) {
