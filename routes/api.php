@@ -10,10 +10,12 @@ Route::get('/test', function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/authFromVk', [AuthController::class, 'authFromVk']);
 Route::get('/vkLogin', [AuthController::class, 'vkLogin']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', [AuthController::class, 'user']);
 
     Route::middleware('role:root')->group(function () {
         Route::apiResource('/users', UserController::class);

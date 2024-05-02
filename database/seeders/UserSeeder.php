@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
             'firstname' => 'Дмитрий',
             'middlename' => 'Николавич',
             'email' => 'markelovdn@gmail.com',
-            'phone' => '+79610876712',
+            'phone' => '+7 (961) 087-67-12',
             'password' => Hash::make('123')
         ]);
 

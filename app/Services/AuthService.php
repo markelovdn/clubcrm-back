@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Http\Resources\UserResource;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthService
 {
@@ -18,14 +21,13 @@ class AuthService
     public function login($credentials)
     {
         if (!Auth::attempt($credentials)) {
-            return response()->json([
-                'message' => __('apiResponseMessage.auth.loginFail'),
+            throw ValidationException::withMessages([
+                'auth' => [__('apiResponseMessage.auth.loginFail')],
             ]);
+        } else {
+            $user = Auth::user();
+            $token = $user->createToken('api')->plainTextToken;
+            return ['user' => new UserResource($user), 'token' => $token];
         }
-
-        $user = User::where('phone', $credentials['phone'])->first();
-        $token = $user->createToken('api')->plainTextToken;
-
-        return $token;
     }
 }

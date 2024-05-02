@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use App\Services\UserService;
 use App\Services\VkService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -28,11 +32,24 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(LoginRequest $request): string
+    public function login(LoginRequest $request): array
     {
-        $token = $this->authService->login($request->validated());
+        $response = $this->authService->login($request->validated());
 
-        return response()->json(['token' => $token]);
+        return $response;
+    }
+
+    public function user(): JsonResource
+    {
+        $user = new UserResource(Auth::user());
+        return $user;
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => __('apiResponseMessage.auth.logout')]);
     }
 
     public function authFromVk(VkService $vkService)
