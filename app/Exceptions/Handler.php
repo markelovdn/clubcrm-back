@@ -10,6 +10,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -31,6 +32,12 @@ class Handler extends ExceptionHandler
 
     public function register(): void
     {
+        $this->renderable(function (Throwable $e, $request) {
+            $this->logError($e);
+            if ($e instanceof AuthenticationException) {
+                return $this->apiErrorResponse(__('apiResponseMessage.auth.accessFail'), 401);
+            }
+        });
 
         $this->renderable(function (NotFoundHttpException $e) {
             $this->logError($e);
