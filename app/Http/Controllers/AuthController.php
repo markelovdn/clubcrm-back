@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\NewPasswordRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use App\Services\UserService;
@@ -24,12 +26,11 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(RegisterUserRequest $request, UserService $userService): JsonResponse
+    public function register(RegisterUserRequest $request): array
     {
-        $userService->createUser($request->validated());
-        return response()->json([
-            'message' => __('apiResponseMessage.auth.register')
-        ]);
+        $response = $this->authService->registration($request->validated());
+
+        return $response;
     }
 
     public function login(LoginRequest $request): array
@@ -43,6 +44,16 @@ class AuthController extends Controller
     {
         $user = new UserResource(Auth::user());
         return $user;
+    }
+
+    public function sendToken(NewPasswordRequest $request)
+    {
+        return $this->authService->sendToken($request->validated());
+    }
+
+    public function resetPassword(UpdatePasswordRequest $request): JsonResponse
+    {
+        return $this->authService->resetPassword($request->validated());
     }
 
     public function logout(Request $request)

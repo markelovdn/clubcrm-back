@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Events\UserCreated;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -18,11 +17,7 @@ class UserService
 
   public function createUser($data): User
   {
-    $user = User::create([
-      'email' => $data['email'],
-      'phone' => $data['phone'],
-      'password' => Hash::make($data['password']),
-    ]);
+    $user = $this->userRepository->create($data);
 
     event(new UserCreated($user, $data));
 

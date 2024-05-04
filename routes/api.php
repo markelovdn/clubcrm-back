@@ -11,6 +11,9 @@ Route::get('/test', function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/forgotPassword', [AuthController::class, 'sendToken']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
 Route::get('/authFromVk', [AuthController::class, 'authFromVk']);
 Route::get('/vkLogin', [AuthController::class, 'vkLogin']);
 
