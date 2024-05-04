@@ -2,12 +2,18 @@
 
 namespace App\Services;
 
+use App\Events\UserCreated;
 use App\Http\Resources\UserResource;
+use App\Mail\PasswordResetMail;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
-use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Support\Str;
 
 class AuthService
 {
@@ -29,5 +35,45 @@ class AuthService
             $token = $user->createToken('api')->plainTextToken;
             return ['user' => new UserResource($user), 'token' => $token];
         }
+    }
+
+    public function registration($data)
+    {
+        $user = $this->userRepository->create($data);
+        $token = $user->createToken('api')->plainTextToken;
+
+        event(new UserCreated($user, $data));
+
+        return ['user' => new UserResource($user), 'token' => $token];
+    }
+
+    public function sendToken($data)
+    {
+        $token = Str::random(64);
+
+        User::where('email', $data['email'])->get()->firstOrFail();
+        DB::table('password_reset_tokens')->insert([
+            'email' => $data['email'],
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
+
+        Mail::to($data['email'])->send(new PasswordResetMail($data['email'], $token));
+
+        return response()->json('Data send success');
+    }
+
+    public function resetPassword($data)
+    {
+        $token = DB::table('password_reset_tokens')->where('token', $data['resetToken'])->get()->firstOrFail();
+
+        $user = User::where('email', $token->email)->first();
+
+        $user->password = Hash::make($data['password']);
+        $user->save();
+
+        DB::table('password_reset_tokens')->where(['token' => $data['resetToken']])->delete();
+
+        return response()->json('Password updated success');
     }
 }
