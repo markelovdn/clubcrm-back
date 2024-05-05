@@ -65,7 +65,7 @@ class AuthService
 
     public function resetPassword($data)
     {
-        $token = DB::table('password_reset_tokens')->where('token', $data['resetToken'])->get()->firstOrFail();
+        $token = DB::table('password_reset_tokens')->where('token', $data['resetToken'])->first();
 
         $user = User::where('email', $token->email)->first();
 

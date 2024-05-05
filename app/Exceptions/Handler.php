@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\ItemNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -67,6 +68,11 @@ class Handler extends ExceptionHandler
         $this->renderable(function (AuthenticationException $e) {
             $this->logError($e);
             return $this->apiErrorResponse(__('apiResponseMessage.auth.loginFail'), 401);
+        });
+
+        $this->renderable(function (ItemNotFoundException $e) {
+            $this->logError($e);
+            return $this->apiErrorResponse(__('apiResponseMessage.itemNotFound'), 404);
         });
 
         $this->renderable(function (Exception $e, $request) {
