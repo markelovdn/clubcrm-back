@@ -8,7 +8,7 @@
 <body>
   <p>Вы запросили сброс пароля для вашей учетной записи.</p>
   <p>Перейдите по ссылке ниже, чтобы сбросить пароль:</p>
-  <a href="{{ url('/reset-password/'.$token) }}">Сбросить пароль</a>
+  <a href="{{ 'https://legion34.clubcrm.ru/reset-password/'.$token }}">Сбросить пароль</a>
 </body>
 
 </html>
