@@ -15,6 +15,7 @@ class UpdatePasswordRequest extends FormRequest
     {
         return [
             'password' => ['required', 'string'],
+            'resetToken' => ['required', 'string'],
         ];
     }
 }
