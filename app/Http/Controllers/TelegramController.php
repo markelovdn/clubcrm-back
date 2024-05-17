@@ -17,7 +17,11 @@ class TelegramController extends Controller
             $text = $message['text'];
 
             Mail::raw($text, function ($msg) {
-                $msg->to('markelovdn@gmail.com')->subject('Сообщение из Telegram');
+                $msg->to('markelovdn@gmail.com')->subject('Сообщение от СК Легион');
+            });
+
+            Mail::raw($text, function ($msg) {
+                $msg->to('kintexrus@list.ru')->subject('Сообщение от СК Легион');
             });
 
             $responseText = 'Ваше сообщение было отправлено на email.';
