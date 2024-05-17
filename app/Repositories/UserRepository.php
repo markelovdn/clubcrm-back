@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository
@@ -23,7 +23,7 @@ class UserRepository
         return User::create([
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make(Str::random(6)),
         ]);
     }
 }
