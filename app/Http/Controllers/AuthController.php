@@ -9,13 +9,11 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
-use App\Services\UserService;
 use App\Services\VkService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {

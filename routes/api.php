@@ -2,11 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\UserController;
 
 Route::get('/test', function () {
     return "Hellow World";
 });
+Route::post('/telegram/webhook', [TelegramController::class, 'handle']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
