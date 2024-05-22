@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class TelegramController extends Controller
@@ -12,6 +13,8 @@ class TelegramController extends Controller
     public function handle(Request $request)
     {
         $message = $request->input('message');
+
+        Log::info('Received message from Telegram:', $request->all());
 
         if ($message && $message['chat']['type'] === 'channel') {
             $text = $message['text'] ?? 'Текст сообщения отсутствует';
