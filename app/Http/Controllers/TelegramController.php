@@ -26,7 +26,11 @@ class TelegramController extends Controller
                 Mail::raw($text, function ($msg) use ($recipient, $subject) {
                     $msg->to($recipient)->subject($subject);
                 });
+
+                Log::info("Sent email to $recipient with subject $subject");
             }
+
+            Log::info('Message sent to email');
 
             return response()->json(['status' => 'Message sent to email']);
         }
