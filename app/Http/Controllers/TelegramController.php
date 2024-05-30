@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class TelegramController extends Controller
@@ -12,29 +11,16 @@ class TelegramController extends Controller
 
     public function handle(Request $request)
     {
-        $message = $request->input('message');
+        $data = $request->all();
+        $text = $data['channel_post']['text'];
 
-        Log::info('Received message from Telegram:', $request->all());
+        foreach ($this->recipients as $recipient) {
 
-        if ($message && $message['chat']['type'] === 'channel') {
-            $text = $message['text'] ?? 'Текст сообщения отсутствует';
-            $channelTitle = $message['chat']['title'] ?? 'Неизвестный канал';
-
-            $subject = "Сообщение от канала: $channelTitle";
-
-            foreach ($this->recipients as $recipient) {
-                Mail::raw($text, function ($msg) use ($recipient, $subject) {
-                    $msg->to($recipient)->subject($subject);
-                });
-
-                Log::info("Sent email to $recipient with subject $subject");
-            }
-
-            Log::info('Message sent to email');
-
-            return response()->json(['status' => 'Message sent to email']);
+            Mail::raw($text, function ($message) use ($recipient) {
+                $message->to($recipient)->subject('Сообщение от СК Легион важное');
+            });
         }
 
-        return response()->json(['status' => 'No valid message found'], 400);
+        return response()->json(['message' => 'Email sent successfully']);
     }
 }
