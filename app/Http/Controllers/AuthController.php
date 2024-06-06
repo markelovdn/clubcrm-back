@@ -9,6 +9,7 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
+use App\Services\UserService;
 use App\Services\VkService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,10 +19,12 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     protected $authService;
+    protected $userService;
 
-    public function __construct(AuthService $authService)
+    public function __construct(AuthService $authService, UserService $userService)
     {
         $this->authService = $authService;
+        $this->userService = $userService;
     }
 
     public function register(RegisterUserRequest $request): array
@@ -40,8 +43,8 @@ class AuthController extends Controller
 
     public function user(): JsonResource
     {
-        $user = new UserResource(Auth::user());
-        return $user;
+        $user = $this->userService->userRepository->getOne(Auth::user()->id);
+        return new UserResource($user);
     }
 
     public function sendToken(NewPasswordRequest $request)

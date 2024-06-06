@@ -11,7 +11,7 @@ class UserRepository
 {
     public function getAll(): Collection
     {
-        return User::get();
+        return User::with('roles')->get();
     }
     public function getOne($id): ?User
     {
