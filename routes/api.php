@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\UserController;
+use App\Models\Role;
 
 Route::get('/test', function () {
     return "Hellow World";
@@ -21,6 +23,7 @@ Route::get('/vkLogin', [AuthController::class, 'vkLogin']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
+    Route::apiResource('/roles', RoleController::class);
 
     Route::middleware('role:root')->group(function () {
         Route::apiResource('/users', UserController::class);

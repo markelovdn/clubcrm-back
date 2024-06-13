@@ -38,4 +38,9 @@ class User extends Authenticatable
     {
         return $this->roles->contains('code', Role::ADMIN);
     }
+
+    public function isRoot(): bool
+    {
+        return $this->roles->contains('code', Role::ROOT);
+    }
 }

@@ -16,6 +16,8 @@ class Role extends Model
     public const ATHLETE = 'athlete';
     public const REFEREE = 'referee';
     public const PARENTAD = 'parentad';
+    public static $publicRoles = [Role::COACH, Role::ATHLETE, Role::REFEREE, Role::PARENTAD];
+
 
     public function users()
     {
