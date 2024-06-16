@@ -7,9 +7,6 @@ use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\UserController;
 use App\Models\Role;
 
-Route::get('/test', function () {
-    return "Hellow World";
-});
 Route::post('/telegram/webhook', [TelegramController::class, 'handle']);
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -23,10 +20,15 @@ Route::get('/vkLogin', [AuthController::class, 'vkLogin']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
+    Route::post('/setProfile', [UserController::class, 'setProfile']);
     Route::apiResource('/roles', RoleController::class);
 
+    Route::middleware('any-role')->group(function () {
+        Route::apiResource('/users', UserController::class)->only(['update']);
+    });
+
     Route::middleware('role:root')->group(function () {
-        Route::apiResource('/users', UserController::class);
+        Route::apiResource('/users', UserController::class)->only(['index', 'destroy']);
     });
 
     Route::post('/logout', [AuthController::class, 'logout']);
