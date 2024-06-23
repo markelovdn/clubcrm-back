@@ -38,6 +38,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function addresses()
+    {
+        return $this->belongsToMany(Address::class);
+    }
+
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class);
+    }
+
     public function isAdmin(): bool
     {
         return $this->roles->contains('code', Role::ADMIN);

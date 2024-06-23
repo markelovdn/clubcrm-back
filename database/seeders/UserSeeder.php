@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -24,5 +25,12 @@ class UserSeeder extends Seeder
         $specificUser->roles()->attach($rootRole);
 
         User::factory(99)->create();
+
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $address = Address::inRandomOrder()->first();
+            $user->addresses()->attach($address->id);
+        }
     }
 }
