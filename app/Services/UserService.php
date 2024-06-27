@@ -23,4 +23,14 @@ class UserService
 
     return $user;
   }
+
+  public function setProfile($data): User
+  {
+    return $this->userRepository->setProfile($data);
+  }
+
+  public function updateProfile($data): User
+  {
+    return $this->userRepository->update($data);
+  }
 }

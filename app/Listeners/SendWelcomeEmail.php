@@ -10,6 +10,6 @@ class SendWelcomeEmail
 {
     public function handle(UserCreated $event)
     {
-        Mail::to($event->user->email)->send(new NewUserWelcomeEmail($event->user, $event->user->password, $event->userData['subDomain']));
+        Mail::to($event->user->email)->send(new NewUserWelcomeEmail($event->user, $event->password, $event->userData['subDomain']));
     }
 }

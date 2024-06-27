@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SetProfileRequest;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -32,13 +34,18 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateProfileRequest $request)
     {
-        //
+        return $this->userService->updateProfile($request->validated());
     }
 
     public function destroy(string $id)
     {
         //
+    }
+
+    public function setProfile(SetProfileRequest $request)
+    {
+        return $this->userService->setProfile($request->validated());
     }
 }

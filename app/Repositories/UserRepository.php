@@ -23,7 +23,39 @@ class UserRepository
         return User::create([
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'password' => Hash::make(Str::random(6)),
+            'password' => $data['password'],
         ]);
+    }
+
+    public function setProfile($data): User
+    {
+        $user = $this->getOne($data['id']);
+
+        $user->firstname = $data['firstName'];
+        $user->secondname = $data['secondName'];
+        $user->middlename = $data['middleName'];
+        $user->date_of_birth = $data['dateBirthday'];
+        $user->save();
+
+        $user->roles()->detach();
+        $user->roles()->attach($data['rolesId']);
+
+        return $user;
+    }
+
+    public function update($data): User
+    {
+        $user = $this->getOne($data['id']);
+
+        $user->email = $data['email'];
+        $user->phone = $data['phone'];
+        $user->firstname = $data['firstName'];
+        $user->secondname = $data['secondName'];
+        $user->middlename = $data['middleName'];
+        $user->date_of_birth = $data['dateBirthday'];
+
+        $user->save();
+
+        return $user;
     }
 }

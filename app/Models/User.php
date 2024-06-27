@@ -14,6 +14,10 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
+        'first_name',
+        'second_name',
+        'middle_name',
+        'date_of_birth',
         'email',
         'phone',
         'password',
@@ -32,6 +36,16 @@ class User extends Authenticatable
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function addresses()
+    {
+        return $this->belongsToMany(Address::class);
+    }
+
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class);
     }
 
     public function isAdmin(): bool
