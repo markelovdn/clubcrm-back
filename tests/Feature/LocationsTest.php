@@ -28,8 +28,7 @@ class LocationsTest extends TestCase
 
     public function testGetDistricts(): void
     {
-        $country = Country::first();
-        $response = $this->get('api/countries/' . $country->id . '/districts');
+        $response = $this->get('api/districts');
         $response->assertStatus(200);
     }
 
@@ -42,9 +41,7 @@ class LocationsTest extends TestCase
 
     public function testGetRegions(): void
     {
-        $country = Country::first();
-        $district = $country->districts()->first();
-        $response = $this->get('api/districts/' . $district->id . '/regions');
+        $response = $this->get('api/regions');
         $response->assertStatus(200);
     }
 
