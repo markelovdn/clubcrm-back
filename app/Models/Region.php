@@ -13,4 +13,9 @@ class Region extends Model
     {
         return $this->belongsTo(District::class);
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 }

@@ -23,7 +23,7 @@ class UserRepository
         return User::create([
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'password' => Hash::make(Str::random(6)),
+            'password' => $data['password'],
         ]);
     }
 

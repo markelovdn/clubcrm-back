@@ -16,7 +16,7 @@ class District extends Model
         return $this->hasMany(Region::class);
     }
 
-    public function coutry(): BelongsTo
+    public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
     }

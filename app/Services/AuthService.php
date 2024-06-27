@@ -39,10 +39,12 @@ class AuthService
 
     public function registration($data)
     {
+        $password = Str::random(8);
+        $data['password'] = Hash::make($password);
         $user = $this->userRepository->create($data);
         $token = $user->createToken('api')->plainTextToken;
 
-        event(new UserCreated($user, $data));
+        event(new UserCreated($user, $data, $password));
 
         return ['user' => new UserResource($user), 'token' => $token];
     }

@@ -13,10 +13,12 @@ class UserCreated
 
     public $user;
     public $userData;
+    public $password;
 
-    public function __construct(User $user, array $userData)
+    public function __construct(User $user, array $userData, string $password)
     {
         $this->user = $user;
         $this->userData = $userData;
+        $this->password = $password;
     }
 }

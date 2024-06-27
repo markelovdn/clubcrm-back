@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('title');
             $table->foreignId('district_id');
+            $table->foreignId('country_id');
         });
     }
 

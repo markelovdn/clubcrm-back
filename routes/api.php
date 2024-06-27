@@ -17,8 +17,8 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/forgotPassword', [AuthController::class, 'sendToken']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 Route::apiResource('/countries', CountryController::class)->only(['index', 'show']);
-Route::apiResource('/countries.districts', DistrictController::class)->only(['index', 'show'])->shallow();
-Route::apiResource('/districts.regions', RegionController::class)->only(['index', 'show'])->shallow();
+Route::apiResource('/districts', DistrictController::class)->only(['index', 'show']);
+Route::apiResource('/regions', RegionController::class)->only(['index', 'show']);
 
 Route::get('/authFromVk', [AuthController::class, 'authFromVk']);
 Route::get('/vkLogin', [AuthController::class, 'vkLogin']);

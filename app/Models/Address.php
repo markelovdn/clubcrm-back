@@ -44,6 +44,4 @@ class Address extends Model
     {
         return $this->belongsToMany(Organization::class);
     }
-
-    // Добавьте другие связи, если они есть, например, с пользователем или организацией
 }
