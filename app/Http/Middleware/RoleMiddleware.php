@@ -15,10 +15,12 @@ class RoleMiddleware
             return response('Unauthorized.', 401);
         }
 
-        $userRole = Auth::user()->roles->first()->code;
+        $userRoles = Auth::user()->roles->pluck('code');
 
-        if (in_array($userRole, $roles)) {
-            return $next($request);
+        foreach ($userRoles as $role) {
+            if (in_array($role, $roles)) {
+                return $next($request);
+            }
         }
 
         return response('Forbidden.', 403);

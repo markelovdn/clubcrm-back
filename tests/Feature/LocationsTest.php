@@ -5,8 +5,6 @@ namespace Tests\Feature;
 use App\Models\Country;
 use App\Models\District;
 use App\Models\Region;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LocationsTest extends TestCase

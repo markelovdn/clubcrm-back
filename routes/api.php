@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LocationController\CountryController;
 use App\Http\Controllers\LocationController\DistrictController;
 use App\Http\Controllers\LocationController\RegionController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\UserController;
@@ -27,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/setProfile', [UserController::class, 'setProfile']);
     Route::apiResource('/roles', RoleController::class);
+    Route::get('/get-all-organizations-title', [OrganizationController::class, 'getAllTitle']);
 
     Route::middleware('any-role')->group(function () {
         Route::apiResource('/users', UserController::class)->only(['update']);
@@ -34,6 +36,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('role:root')->group(function () {
         Route::apiResource('/users', UserController::class)->only(['index', 'destroy']);
+    });
+
+    Route::middleware('role:admin,root,manager')->group(function () {
+        Route::apiResource('/organizations', OrganizationController::class);
     });
 
     Route::post('/logout', [AuthController::class, 'logout']);

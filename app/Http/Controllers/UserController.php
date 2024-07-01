@@ -6,7 +6,6 @@ use App\Http\Requests\SetProfileRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -21,11 +20,6 @@ class UserController extends Controller
     {
         $users = $this->userService->userRepository->getAll();
         return UserResource::collection($users);
-    }
-
-    public function store(Request $request)
-    {
-        //
     }
 
     public function show(int $id)

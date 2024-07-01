@@ -10,6 +10,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ItemNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -35,7 +36,7 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (Throwable $e, $request) {
             $this->logError($e);
-            if ($e instanceof AuthenticationException) {
+            if ($e instanceof AuthenticationException || $e instanceof AuthenticationException) {
                 return $this->apiErrorResponse(__('apiResponseMessage.auth.accessFail'), 401);
             }
         });
@@ -64,10 +65,14 @@ class Handler extends ExceptionHandler
             }
         });
 
-
         $this->renderable(function (AuthenticationException $e) {
             $this->logError($e);
             return $this->apiErrorResponse(__('apiResponseMessage.auth.loginFail'), 401);
+        });
+
+        $this->renderable(function (AccessDeniedHttpException $e) {
+            $this->logError($e);
+            return $this->apiErrorResponse(__('apiResponseMessage.auth.accessFail'), 403);
         });
 
         $this->renderable(function (ItemNotFoundException $e) {
@@ -77,7 +82,7 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (Exception $e, $request) {
             $this->logError($e);
-            return $this->apiErrorResponse('Что-то пошло не так, мы уже работаем над этим', 500);
+            return $this->apiErrorResponse(__('apiResponseMessage.unknowFail'), 500);
         });
     }
 }
