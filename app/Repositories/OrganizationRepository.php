@@ -20,4 +20,9 @@ class OrganizationRepository
     {
         return Organization::with('addresses', 'users')->findOrFail($id);
     }
+
+    public function getOrganizationIdBySubdomain($subDomain)
+    {
+        return Organization::where('domen', $subDomain)->first()->id;
+    }
 }

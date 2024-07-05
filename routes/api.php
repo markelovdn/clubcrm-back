@@ -12,7 +12,7 @@ use App\Http\Controllers\UserController;
 
 Route::post('/telegram/webhook', [TelegramController::class, 'handle']);
 
-Route::post('/register', [AuthController::class, 'register']);
+Route::apiResource('/users', UserController::class)->only(['store']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/forgotPassword', [AuthController::class, 'sendToken']);
@@ -25,7 +25,7 @@ Route::get('/authFromVk', [AuthController::class, 'authFromVk']);
 Route::get('/vkLogin', [AuthController::class, 'vkLogin']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', [AuthController::class, 'user']);
+    Route::apiResource('/users', UserController::class)->only(['show']);
     Route::post('/setProfile', [UserController::class, 'setProfile']);
     Route::apiResource('/roles', RoleController::class);
     Route::get('/get-all-organizations-title', [OrganizationController::class, 'getAllTitle']);

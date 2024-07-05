@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Events\UserCreated;
 use App\Http\Resources\UserResource;
 use App\Mail\PasswordResetMail;
 use App\Repositories\UserRepository;
@@ -14,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+
 
 class AuthService
 {
@@ -31,22 +31,10 @@ class AuthService
                 'auth' => [__('apiResponseMessage.auth.loginFail')],
             ]);
         } else {
-            $user = Auth::user();
+            $user = $this->userRepository->getOne(Auth::user()->id);
             $token = $user->createToken('api')->plainTextToken;
             return ['user' => new UserResource($user), 'token' => $token];
         }
-    }
-
-    public function registration($data)
-    {
-        $password = Str::random(8);
-        $data['password'] = Hash::make($password);
-        $user = $this->userRepository->create($data);
-        $token = $user->createToken('api')->plainTextToken;
-
-        event(new UserCreated($user, $data, $password));
-
-        return ['user' => new UserResource($user), 'token' => $token];
     }
 
     public function sendToken($data)

@@ -13,6 +13,10 @@ class UserRepository
     }
     public function getOne($id): ?User
     {
+        if ($id === 1) {
+            $id = auth()->user()->id;
+        }
+
         return User::with('roles')->findOrFail($id);
     }
 
@@ -55,5 +59,11 @@ class UserRepository
         $user->save();
 
         return $user;
+    }
+
+    public function deleteUser($id): bool
+    {
+        $user = $this->getOne($id);
+        return $user->delete();
     }
 }

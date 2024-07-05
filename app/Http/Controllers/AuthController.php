@@ -5,33 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\NewPasswordRequest;
-use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
-use App\Http\Resources\UserResource;
 use App\Services\AuthService;
-use App\Services\UserService;
 use App\Services\VkService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
     protected $authService;
-    protected $userService;
 
-    public function __construct(AuthService $authService, UserService $userService)
+    public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
-        $this->userService = $userService;
-    }
-
-    public function register(RegisterUserRequest $request): array
-    {
-        $response = $this->authService->registration($request->validated());
-
-        return $response;
     }
 
     public function login(LoginRequest $request): array
@@ -39,12 +26,6 @@ class AuthController extends Controller
         $response = $this->authService->login($request->validated());
 
         return $response;
-    }
-
-    public function user(): JsonResource
-    {
-        $user = $this->userService->userRepository->getOne(Auth::user()->id);
-        return new UserResource($user);
     }
 
     public function sendToken(NewPasswordRequest $request)

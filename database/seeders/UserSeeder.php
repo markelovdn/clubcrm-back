@@ -21,10 +21,23 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123')
         ]);
 
-        $rootRole = Role::where('code', 'root')->first();
-        $specificUser->roles()->attach($rootRole);
+        $parentUser = User::create([
+            'secondname' => 'Родителев',
+            'firstname' => 'Родитель',
+            'middlename' => 'Родителевич',
+            'email' => 'roditel@roditel.com',
+            'phone' => '+7 (111) 111-11-11',
+            'password' => Hash::make('123')
+        ]);
 
-        User::factory(99)->create();
+        $rootRole = Role::where('code', Role::ROOT)->first();
+        $adminRole = Role::where('code', Role::ADMIN)->first();
+        $parentRole = Role::where('code', Role::PARENTAD)->first();
+        $specificUser->roles()->attach($rootRole);
+        $specificUser->roles()->attach($adminRole);
+        $parentUser->roles()->attach($parentRole);
+
+        User::factory(98)->create();
 
         $users = User::all();
 

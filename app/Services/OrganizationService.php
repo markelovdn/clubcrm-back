@@ -12,4 +12,9 @@ class OrganizationService
     {
         $this->organizationRepository = $organizationRepository;
     }
+
+    public function getOrganizationIdBySubdomain($subDomain)
+    {
+        return $this->organizationRepository->getOrganizationIdBySubdomain($subDomain);
+    }
 }
